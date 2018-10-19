@@ -32,7 +32,7 @@ class SignIn extends React.Component {
           username={this.state.username}
           password={this.state.password}
           handleInputChange={this.handleInputChange}
-          handleFormSubmit={this.handleSignUpSubmit}
+          handleFormSubmit={this.handleSubmit}
         />
       </div>
     );

@@ -10,7 +10,7 @@ module.exports = {
 
 function tokenGeneration(user) {
   const payload = { username: user.username };
-  const options = { expiresIn: "1h" };
+  const options = { expiresIn: 1000 * 60 * 60 };
   return jwt.sign(payload, jwtKey, options);
 }
 

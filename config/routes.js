@@ -1,5 +1,6 @@
 const axios = require("axios");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
+const db = require("../database/dbConfig");
 const { authenticate, tokenGeneration } = require("./middlewares");
 
 module.exports = server => {
@@ -15,7 +16,7 @@ async function register(req, res) {
     const credentials = req.body;
 
     // hash the password using bcrypt
-    const hash = bcrypt.hashSync(credentials.password, 16);
+    const hash = bcrypt.hashSync(credentials.password, 10);
 
     // set the password to the created hash
     credentials.password = hash;
@@ -32,7 +33,7 @@ async function register(req, res) {
       const token = tokenGeneration(user);
       req.headers.authorization = token;
       // return the token if successful
-      return res.status(201).send(token);
+      return res.status(200).send(token);
     } catch (error) {
       // if the user did not get created correctly send a message saying that the user does not exist
       return res.status(404).json({ message: "the user does not exist" });
@@ -69,12 +70,10 @@ async function login(req, res) {
     }
   } catch (error) {
     // if  all else fails and we have a server error send a message saying that an error occured and supply the error message for debugging
-    return res
-      .status(500)
-      .json({
-        message: "an error occurred during the login procedure",
-        error: error.message
-      });
+    return res.status(500).json({
+      message: "an error occurred during the login procedure",
+      error: error.message
+    });
   }
 }
 

@@ -23,6 +23,20 @@ class SignUp extends React.Component {
       })
       .catch(error => console.log(error));
   };
+
+  render() {
+    return (
+      <div>
+        <GenericForm
+          type={"register"}
+          username={this.state.username}
+          password={this.state.password}
+          handleInputChange={this.handleInputChange}
+          handleFormSubmit={this.handleSignUpSubmit}
+        />
+      </div>
+    );
+  }
 }
 
 export default SignUp;

@@ -8,6 +8,10 @@ class SignUp extends React.Component {
     username: "",
     password: ""
   };
+
+  handleInputChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 }
 
 export default SignUp;

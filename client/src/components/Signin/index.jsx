@@ -3,7 +3,7 @@ import "../Styles/index.css";
 import GenericForm from "../GenericForm";
 import axios from "axios";
 
-class SignUp extends React.Component {
+class SignIn extends React.Component {
   state = {
     username: "",
     password: ""
@@ -16,7 +16,7 @@ class SignUp extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     axios
-      .post("http://localhost:3300/api/register", this.state)
+      .post("http://localhost:3300/api/login", this.state)
       .then(response => {
         localStorage.setItem("jwt", response.data);
         this.props.history.push("/api/jokes");
@@ -28,7 +28,7 @@ class SignUp extends React.Component {
     return (
       <div>
         <GenericForm
-          type={"register"}
+          type={"login"}
           username={this.state.username}
           password={this.state.password}
           handleInputChange={this.handleInputChange}
@@ -39,4 +39,4 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp;
+export default SignIn;

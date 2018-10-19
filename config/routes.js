@@ -45,8 +45,37 @@ async function register(req, res) {
   }
 }
 
-function login(req, res) {
-  // implement user login
+async function login(req, res) {
+  try {
+    // take in the credentials from the request body
+    const credentials = req.body;
+    // get the data from the users table where the username matches the credentials username
+    const user = await db("users")
+      .where({ username: credentials.username })
+      .first();
+
+    // compare the users password with the credentials password using the bcrypt comparSync method
+    if (user && bcrypt.compareSync(credentials.password, user.password)) {
+      // use the token generation method from the middleware to generate the token for the user
+      const token = tokenGeneration(user);
+
+      // set the authorization headers with the token
+      req.headers.authorization = token;
+      // if all went well return the token to the caller
+      return res.status(200).send(token);
+    } else {
+      // otherwise tell the user to register
+      return res.status(404).json({ message: "Please register." });
+    }
+  } catch (error) {
+    // if  all else fails and we have a server error send a message saying that an error occured and supply the error message for debugging
+    return res
+      .status(500)
+      .json({
+        message: "an error occurred during the login procedure",
+        error: error.message
+      });
+  }
 }
 
 function getJokes(req, res) {

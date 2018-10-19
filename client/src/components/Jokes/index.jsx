@@ -15,6 +15,20 @@ class Jokes extends React.Component {
       .then(response => this.setState({ jokes: response.data }))
       .catch(error => console.log(error));
   }
+
+  render() {
+    return (
+      <div>
+        {this.state.jokes.map(joke => {
+          return (
+            <div key={joke.id}>
+              {joke.setup} {joke.punchline}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
 }
 
 export default Jokes;
